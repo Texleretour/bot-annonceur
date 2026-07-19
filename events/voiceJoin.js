@@ -4,6 +4,7 @@ const path = require("node:path");
 const { readConfig } = require("../utils/configManager.js");
 
 const DEFAULT_MESSAGE = (id) => `Bordel.. <@${id}> rentre sur la piste.`;
+const gifsPath = path.join(__dirname, "../", "assets", "greeting-gifs");
 
 module.exports = {
   name: Events.VoiceStateUpdate,
@@ -17,21 +18,23 @@ module.exports = {
 
         const message = customMessages[memberId] ?? DEFAULT_MESSAGE(memberId);
 
-        const gifsPath = path.join(__dirname, "../", "assets", "greeting-gifs");
         const gifFiles = fs
           .readdirSync(gifsPath)
           .filter((file) => file.endsWith(".gif"));
-        randomGifIndex = Math.floor(Math.random() * gifFiles.length - 1);
+        randomGifIndex = Math.floor(Math.random() * gifFiles.length);
         randomGif = gifFiles[randomGifIndex];
         randomGifPath = path.join(gifsPath, randomGif);
 
         const boundTextChannel =
           await newState.client.channels.fetch(boundTextChannelId);
-        await boundTextChannel
-          .send(message, {
+        boundTextChannel
+          .send({
+            content: message,
             files: [randomGifPath],
           })
-          .then(`Sent message: ${message} and gif: ${randomGif}`)
+          .then(
+            console.log(`Sent message: ${message}\n with gif: ${randomGif}`),
+          )
           .catch(console.error);
       }
     }

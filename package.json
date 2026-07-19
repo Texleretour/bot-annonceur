@@ -1,5 +1,21 @@
 {
-	"dependencies": {
-		"discord.js": "^14.27.0"
-	}
+  "name": "bot-announcer",
+  "version": "1.0.0",
+  "description": "",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1",
+    "dev": "nodemon .",
+    "start": "node ."
+  },
+  "keywords": [],
+  "author": "Tex",
+  "license": "ISC",
+  "packageManager": "pnpm@10.28.2",
+  "dependencies": {
+    "discord.js": "^14.27.0"
+  },
+  "devDependencies": {
+    "nodemon": "^3.1.14"
+  }
 }
