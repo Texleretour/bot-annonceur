@@ -9,7 +9,7 @@ const gifsPath = path.join(__dirname, "../", "assets", "greeting-gifs");
 module.exports = {
   name: Events.VoiceStateUpdate,
   async execute(oldState, newState) {
-    const { customMessages, boundTextChannelId } = readConfig();
+    const { customMessages, gifUrls, boundTextChannelId } = readConfig();
 
     if (newState.channelId !== null && oldState.channelId === null) {
       const channel = await newState.client.channels.fetch(newState.channelId);
@@ -18,19 +18,14 @@ module.exports = {
 
         const message = customMessages[memberId] ?? DEFAULT_MESSAGE(memberId);
 
-        const gifFiles = fs
-          .readdirSync(gifsPath)
-          .filter((file) => file.endsWith(".gif"));
-        randomGifIndex = Math.floor(Math.random() * gifFiles.length);
-        randomGif = gifFiles[randomGifIndex];
-        randomGifPath = path.join(gifsPath, randomGif);
+        randomGifIndex = Math.floor(Math.random() * gifUrls.length);
+        randomGif = gifUrls[randomGifIndex];
 
         const boundTextChannel =
           await newState.client.channels.fetch(boundTextChannelId);
         boundTextChannel
           .send({
-            content: message,
-            files: [randomGifPath],
+            content: `${message} [gif](${randomGif})`,
           })
           .then(
             console.log(`Sent message: ${message}\n with gif: ${randomGif}`),
