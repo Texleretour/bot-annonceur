@@ -1,9 +1,9 @@
 async function disconnectMember(client, guildId, memberId) {
-	const guild =
-		(await client.guilds.cache.get(guildId)) ?? client.guilds.fetch(guildId);
-	const member = await guild.member.fetch(memberId);
+	const guild = await client.guilds.fetch(guildId);
+	const member = await guild.members.fetch(memberId);
 
 	member.voice.disconnect();
+	member.send('Tu as été déconnecté hehe, bonne nuit ! ')
 	console.log(`Disconnected ${member.name} (id ${memberId})`);
 }
 
