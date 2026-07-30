@@ -3,9 +3,9 @@ const { disconnectMember } = require("./disconnectMember");
 const { readConfig } = require("../utils/configManager")
 
 function startJobs(client) {
-	const disconnectEvaJob = new CronJob("40 1 * * *", () => {
+	const disconnectEvaJob = new CronJob("0 1 * * *", async () => {
 		const { guildId, idEva } = readConfig();
-		disconnectMember(client, guildId, idEva);
+		await disconnectMember(client, guildId, idEva);
 	});
 
 	disconnectEvaJob.start();
